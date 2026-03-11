@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>CyberSec Password Toolkit</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<h1>CyberSec Password Security Toolkit</h1>
+
+<div class="container">
+
+<h2>Password Generator</h2>
+
+<input type="number" id="length" value="16">
+<button onclick="generatePassword()">Generate</button>
+
+<p id="generated"></p>
+
+<hr>
+
+<h2>Password Strength Analyzer</h2>
+
+<input type="text" id="passwordInput" placeholder="Enter password">
+
+<button onclick="checkStrength()">Analyze</button>
+
+<p id="strength"></p>
+<p id="entropy"></p>
+
+</div>
+
+<script>
+function generatePassword(){
+
+let length = document.getElementById("length").value;
+
+let chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+
+let password = "";
+
+for(let i=0;i<length;i++){
+
+password += chars.charAt(Math.floor(Math.random()*chars.length));
+
+}
+
+document.getElementById("generated").innerText = password;
+
+}
+
+
+function checkStrength(){
+
+let password = document.getElementById("passwordInput").value;
+
+let charset = 0;
+
+if(/[a-z]/.test(password)) charset += 26;
+if(/[A-Z]/.test(password)) charset += 26;
+if(/[0-9]/.test(password)) charset += 10;
+if(/[^A-Za-z0-9]/.test(password)) charset += 32;
+
+let entropy = password.length * Math.log2(charset);
+
+let strength = "Weak";
+
+if(entropy > 80) strength = "Very Strong";
+else if(entropy > 60) strength = "Strong";
+else if(entropy > 40) strength = "Moderate";
+
+document.getElementById("strength").innerText = "Strength: " + strength;
+document.getElementById("entropy").innerText = "Entropy: " + entropy.toFixed(2);
+
+}
+</script>
+
+</body>
+
+</html>
